@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.example.droidwiki.R
+import com.example.droidwiki.application.WikiApplication
 import com.example.droidwiki.model.WikiHomepage
 import com.example.droidwiki.ui.search.SearchActivity
 import com.example.droidwiki.utils.errorDialog
@@ -14,14 +15,17 @@ import com.example.droidwiki.utils.parseHtml
 import com.example.droidwiki.utils.start
 
 import kotlinx.android.synthetic.main.activity_homepage.*
+import javax.inject.Inject
 
 class HomepageActivity : Activity(), HomepageView {
 
-  private val presenter: HomepagePresenter = HomepagePresenterImpl()
+   @Inject lateinit var presenter: HomepagePresenter
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_homepage)
+
+    (application as WikiApplication).wikiComponent.inject(this)
 
     presenter.setView(this)
     presenter.loadHomepage()
